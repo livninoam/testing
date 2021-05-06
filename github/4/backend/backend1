@@ -1,0 +1,30 @@
+---
+- hosts: 172.20.0.1
+  remote_user: root
+  become: yes
+  become_method: su
+
+  tasks:
+  - name: Install Apache
+    yum: pkg=httpd state=latest
+  - name: Copying the demo file
+    template: src=/etc/ansible/index.html dest=/var/www/html
+              owner=apache group=apache mode=0644
+  - name: Enable Apache on System Boot
+    service: name=httpd enabled=yes
+
+    notify:
+    - start apache
+    - setup firewalld
+    - reload firewalld
+
+  handlers:
+    - name: start apache
+      service: name=httpd state=started
+    - name: setup firewalld
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+    - name: reload firewalld
+      service: name=firewalld state=restarted

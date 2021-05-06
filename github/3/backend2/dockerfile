@@ -1,0 +1,7 @@
+FROM python:3
+COPY ./prerun.txt /prerun.txt
+WORKDIR /
+RUN pip install -r prerun.txt
+COPY . /
+ENTRYPOINT [ "python3" ]
+CMD [ "backend2.py" ]

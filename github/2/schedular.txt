@@ -1,0 +1,3 @@
+scheduler-cli create-period --stack InstanceScheduler --name period-8to8 --begintime 08:00 --endtime 20:00
+
+scheduler-cli create-schedule --stack InstanceScheduler --name schedule-work-from-8to8 --periods period-8to8 --timezone <mytimezone>
